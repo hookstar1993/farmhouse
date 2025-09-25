@@ -154,18 +154,22 @@
     </div>
 
     <!-- Add/Edit/View Booking Modal -->
-    <div id="booking-modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center hidden z-50 p-4 backdrop-blur-sm">
-        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-5xl transform transition-all scale-95 opacity-0 flex flex-col max-h-[90vh]" id="modal-content">
+    <div id="booking-modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center hidden z-50 p-4 sm:p-6 md:p-8 backdrop-blur-sm">
+        <div class="bg-white dark:bg-dark-card rounded-2xl shadow-2xl w-full h-full transform transition-all scale-95 opacity-0 flex flex-col relative" id="modal-content">
             
+            <button id="modal-close-btn-top" class="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center rounded-full text-text dark:text-dark-text bg-gray-200/80 dark:bg-dark-border/80 hover:bg-gray-300 dark:hover:bg-dark-border transition-colors">
+                <i class="fa-solid fa-times"></i>
+            </button>
+
             <!-- MODAL HEADER -->
-            <div class="flex-shrink-0">
-                <h2 id="modal-title" class="text-xl font-bold text-center mb-2"></h2>
-                <p id="modal-date-display" class="font-semibold text-lg text-center text-gray-500 dark:text-gray-400 mb-4"></p>
+            <div class="flex-shrink-0 p-6 text-center border-b border-light-border dark:border-dark-border">
+                <h2 id="modal-title" class="text-2xl font-bold mb-2"></h2>
+                <p id="modal-date-display" class="font-semibold text-lg text-gray-500 dark:text-gray-400 mb-2"></p>
             </div>
 
             <!-- SCROLLABLE FORM BODY -->
-            <div class="flex-grow overflow-y-auto -mr-4 pr-4">
-                <form id="booking-form" class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            <div class="flex-grow overflow-y-auto p-6">
+                <form id="booking-form" class="grid grid-cols-1 lg:grid-cols-5 gap-x-8 gap-y-6">
                     <input type="hidden" id="booking-date">
                     <input type="hidden" id="editing-slot">
                     
@@ -209,7 +213,7 @@
                         </div>
 
                          <div class="space-y-4">
-                            <div class="flex justify-end text-2xl font-bold">
+                            <div class="flex justify-between items-baseline text-2xl font-bold">
                                 <span data-lang-key="grand_total">Grand Total:</span>
                                 <span id="grand-total" class="ml-4">₹0</span>
                             </div>
@@ -220,14 +224,28 @@
                                      <input type="text" id="advanced-payment-date" class="date-picker w-full px-3 py-2 border border-light-border dark:border-dark-border rounded-lg bg-background dark:bg-dark-background focus:outline-none focus:ring-2 focus:ring-primary" data-lang-placeholder="select_date">
                                 </div>
                             </div>
+                             <div class="flex justify-between text-md font-semibold border-t border-light-border dark:border-dark-border pt-2 mt-2">
+                                <span data-lang-key="total_paid">Total Paid:</span>
+                                <span id="total-paid" class="ml-4 text-green-500">₹0</span>
+                            </div>
+                            <div class="flex justify-between text-lg font-bold">
+                                <span data-lang-key="remaining_amount">Remaining:</span>
+                                <span id="remaining-amount" class="ml-4 text-red-500">₹0</span>
+                            </div>
                          </div>
                          
                          <div class="border-t border-light-border dark:border-dark-border pt-4">
                              <div class="flex justify-between items-center mb-2">
                                  <label class="text-sm font-medium" data-lang-key="installments">Installments</label>
-                                 <button type="button" id="add-installment-btn" class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/20 hover:bg-primary/40 text-primary">
-                                     <i class="fa-solid fa-plus"></i>
-                                 </button>
+                                 <div class="flex items-center gap-1">
+                                    <span class="text-xs mr-1 hidden sm:inline" data-lang-key="auto_divide">Divide in:</span>
+                                    <button type="button" data-count="2" class="installment-divider-btn w-6 h-6 text-xs flex items-center justify-center rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-dark-border dark:hover:bg-dark-background font-bold">2</button>
+                                    <button type="button" data-count="3" class="installment-divider-btn w-6 h-6 text-xs flex items-center justify-center rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-dark-border dark:hover:bg-dark-background font-bold">3</button>
+                                    <button type="button" data-count="4" class="installment-divider-btn w-6 h-6 text-xs flex items-center justify-center rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-dark-border dark:hover:bg-dark-background font-bold">4</button>
+                                    <button type="button" id="add-installment-btn" class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/20 hover:bg-primary/40 text-primary">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                 </div>
                              </div>
                              <div id="installments-container" class="space-y-2 max-h-48 overflow-y-auto pr-2">
                                  <!-- Installment rows will be added here -->
@@ -238,8 +256,8 @@
             </div>
 
             <!-- MODAL FOOTER -->
-            <div class="flex-shrink-0 pt-4 mt-auto">
-                <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-4 sm:mt-0">
+            <div class="flex-shrink-0 p-6 mt-auto border-t border-light-border dark:border-dark-border">
+                <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
                     <button type="submit" form="booking-form" id="modal-save-btn" class="w-full sm:w-auto px-5 py-2 rounded-lg bg-primary text-text hover:bg-opacity-80 font-semibold flex items-center justify-center gap-2"><i class="fa-solid fa-check"></i> <span data-lang-key="save_booking">Save Booking</span></button>
                     <button type="button" id="modal-edit-btn" class="w-full sm:w-auto px-5 py-2 rounded-lg bg-secondary text-dark-text hover:bg-opacity-80 font-semibold flex items-center justify-center gap-2"><i class="fa-solid fa-pencil"></i> <span data-lang-key="edit">Edit</span></button>
                     <button type="button" id="cancel-modal-btn" class="w-full sm:w-auto px-5 py-2 rounded-lg bg-gray-200 dark:bg-dark-border hover:bg-gray-300 dark:hover:bg-opacity-80 font-semibold flex items-center justify-center gap-2"><i class="fa-solid fa-times"></i> <span data-lang-key="cancel">Cancel</span></button>
@@ -326,14 +344,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- TRANSLATIONS ---
     const translations = {
-        en: { title: "Farm Booking Manager", upcoming_bookings: "Upcoming Bookings", no_upcoming_bookings: "No upcoming bookings found.", booking_details: "Booking Details", grand_total: "Grand Total:", select_date_prompt: "Select a date to see details.", add_booking: "Add Booking", add_new_booking: "Add New Booking", edit_booking: "Edit Booking", customer_name: "Customer Name", contact_info: "Contact Info", details_notes: "Details / Notes", booking_slot: "Booking Slot", morning: "Morning", afternoon: "Afternoon", night: "Night", cancel: "Cancel", save_booking: "Save Booking", booked_by: "Booked by", contact: "Contact", amount: "Amount", no_bookings: "This slot is available.", months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], edit: "Edit", delete: "Delete", confirm_delete_title: "Confirm Deletion", confirm_delete_text: "Are you sure? This action cannot be undone.", vacant: "Vacant", goto_today: "Go to Today", view_details: "View Details", view_booking: "View Booking", close: "Close", item_detail: "Detail", item_price: "Price", item_qty: "Qty", item_total: "Total", advanced_payment: "Advanced Payment", installments: "Installments", select_date: "Select Date", installment_amount: "Amount", installment_date: "Date" },
-        gu: { title: "ફાર્મ બુકિંગ મેનેજર", upcoming_bookings: "આગામી બુકિંગ", no_upcoming_bookings: "કોઈ આગામી બુકિંગ મળ્યું નથી.", booking_details: "બુકિંગ વિગતો", grand_total: "કુલ ટોટલ:", select_date_prompt: "વિગતો જોવા માટે તારીખ પસંદ કરો.", add_booking: "બુકિંગ ઉમેરો", add_new_booking: "નવું બુકિંગ ઉમેરો", edit_booking: "બુકિંગ સંપાદિત કરો", customer_name: "ગ્રાહકનું નામ", contact_info: "સંપર્ક માહિતી", details_notes: "વિગતો / નોંધો", booking_slot: "બુકિંગ સ્લોટ", morning: "સવાર", afternoon: "બપોર", night: "રાત્રી", cancel: "રદ કરો", save_booking: "બુકિંગ સાચવો", booked_by: "દ્વારા બુક કરેલ", contact: "સંપર્ક", amount: "રકમ", no_bookings: "આ સ્લોટ ઉપલબ્ધ છે.", months: ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઓગસ્ટ", "સપ્ટેમ્બર", "ઓક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"], days: ["રવિ", "સોમ", "મંગળ", "બુધ", "ગુરુ", "શુક્ર", "શનિ"], edit: "સંપાદિત કરો", delete: "કાઢી નાખો", confirm_delete_title: "કાઢી નાખવાની પુષ્ટિ કરો", confirm_delete_text: "શું તમે ચોક્કસ છો? આ ક્રિયાને પૂર્વવત્ કરી શકાતી નથી.", vacant: "ખાલી", goto_today: "આજે જાઓ", view_details: "વિગતો જુઓ", view_booking: "બુકિંગ જુઓ", close: "બંધ કરો", item_detail: "વિગત", item_price: "ભાવ", item_qty: "નંગ", item_total: "ટોટલ", advanced_payment: "એડવાન્સ પેમેન્ટ", installments: "હપતા", select_date: "તારીખ પસંદ કરો", installment_amount: "રકમ", installment_date: "તારીખ"},
+        en: { title: "Farm Booking Manager", upcoming_bookings: "Upcoming Bookings", no_upcoming_bookings: "No upcoming bookings found.", booking_details: "Booking Details", grand_total: "Grand Total:", select_date_prompt: "Select a date to see details.", add_booking: "Add Booking", add_new_booking: "Add New Booking", edit_booking: "Edit Booking", customer_name: "Customer Name", contact_info: "Contact Info", details_notes: "Details / Notes", booking_slot: "Booking Slot", morning: "Morning", afternoon: "Afternoon", night: "Night", cancel: "Cancel", save_booking: "Save Booking", booked_by: "Booked by", contact: "Contact", amount: "Amount", no_bookings: "This slot is available.", months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], edit: "Edit", delete: "Delete", confirm_delete_title: "Confirm Deletion", confirm_delete_text: "Are you sure? This action cannot be undone.", vacant: "Vacant", goto_today: "Go to Today", view_details: "View Details", view_booking: "View Booking", close: "Close", item_detail: "Detail", item_price: "Price", item_qty: "Qty", item_total: "Total", advanced_payment: "Advanced Payment", installments: "Installments", select_date: "Select Date", installment_amount: "Amount", installment_date: "Date", total_paid: "Total Paid:", remaining_amount: "Remaining:", auto_divide: "Divide in:" },
+        gu: { title: "ફાર્મ બુકિંગ મેનેજર", upcoming_bookings: "આગામી બુકિંગ", no_upcoming_bookings: "કોઈ આગામી બુકિંગ મળ્યું નથી.", booking_details: "બુકિંગ વિગતો", grand_total: "કુલ ટોટલ:", select_date_prompt: "વિગતો જોવા માટે તારીખ પસંદ કરો.", add_booking: "બુકિંગ ઉમેરો", add_new_booking: "નવું બુકિંગ ઉમેરો", edit_booking: "બુકિંગ સંપાદિત કરો", customer_name: "ગ્રાહકનું નામ", contact_info: "સંપર્ક માહિતી", details_notes: "વિગતો / નોંધો", booking_slot: "બુકિંગ સ્લોટ", morning: "સવાર", afternoon: "બપોર", night: "રાત્રી", cancel: "રદ કરો", save_booking: "બુકિંગ સાચવો", booked_by: "દ્વારા બુક કરેલ", contact: "સંપર્ક", amount: "રકમ", no_bookings: "આ સ્લોટ ઉપલબ્ધ છે.", months: ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઓગસ્ટ", "સપ્ટેમ્બર", "ઓક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"], days: ["રવિ", "સોમ", "મંગળ", "બુધ", "ગુરુ", "શુક્ર", "શનિ"], edit: "સંપાદિત કરો", delete: "કાઢી નાખો", confirm_delete_title: "કાઢી નાખવાની પુષ્ટિ કરો", confirm_delete_text: "શું તમે ચોક્કસ છો? આ ક્રિયાને પૂર્વવત્ કરી શકાતી નથી.", vacant: "ખાલી", goto_today: "આજે જાઓ", view_details: "વિગતો જુઓ", view_booking: "બુકિંગ જુઓ", close: "બંધ કરો", item_detail: "વિગત", item_price: "ભાવ", item_qty: "નંગ", item_total: "ટોટલ", advanced_payment: "એડવાન્સ પેમેન્ટ", installments: "હપતા", select_date: "તારીખ પસંદ કરો", installment_amount: "રકમ", installment_date: "તારીખ", total_paid: "કુલ ચૂકવેલ:", remaining_amount: "બાકી:", auto_divide: "માં વિભાજીત કરો:"},
     };
     const bookingSlots = [ { id: 'morning', icon: 'fa-sun', color: 'text-yellow-500' }, { id: 'afternoon', icon: 'fa-cloud-sun', color: 'text-orange-500' }, { id: 'night', icon: 'fa-moon', color: 'text-accent' }];
 
     // --- DOM ELEMENTS ---
     const allDOMElements = {
-        monthYearEl: document.getElementById('month-year'), calendarGridEl: document.getElementById('calendar-grid'), calendarHeaderEl: document.getElementById('calendar-header'), prevMonthBtn: document.getElementById('prev-month'), nextMonthBtn: document.getElementById('next-month'), bookingInfoEl: document.getElementById('booking-info'), selectedDateDisplayEl: document.getElementById('selected-date-display'), modal: document.getElementById('booking-modal'), modalContent: document.getElementById('modal-content'), modalTitle: document.getElementById('modal-title'), cancelModalBtn: document.getElementById('cancel-modal-btn'), bookingForm: document.getElementById('booking-form'), modalDateDisplay: document.getElementById('modal-date-display'), languageToggleBtn: document.getElementById('language-toggle-btn'), themeSwitcher: document.getElementById('theme-switcher'), themeIcon: document.getElementById('theme-icon'), deleteModal: document.getElementById('delete-modal'), deleteModalContent: document.getElementById('delete-modal-content'), cancelDeleteBtn: document.getElementById('cancel-delete-btn'), confirmDeleteBtn: document.getElementById('confirm-delete-btn'), gotoTodayBtn: document.getElementById('goto-today'), modalEditBtn: document.getElementById('modal-edit-btn'), modalSaveBtn: document.getElementById('modal-save-btn'), upcomingBookingsContainer: document.getElementById('upcoming-bookings-container'), itemChecklist: document.getElementById('item-checklist'), grandTotalEl: document.getElementById('grand-total'), addInstallmentBtn: document.getElementById('add-installment-btn'), installmentsContainer: document.getElementById('installments-container'),
+        monthYearEl: document.getElementById('month-year'), calendarGridEl: document.getElementById('calendar-grid'), calendarHeaderEl: document.getElementById('calendar-header'), prevMonthBtn: document.getElementById('prev-month'), nextMonthBtn: document.getElementById('next-month'), bookingInfoEl: document.getElementById('booking-info'), selectedDateDisplayEl: document.getElementById('selected-date-display'), modal: document.getElementById('booking-modal'), modalContent: document.getElementById('modal-content'), modalTitle: document.getElementById('modal-title'), cancelModalBtn: document.getElementById('cancel-modal-btn'), bookingForm: document.getElementById('booking-form'), modalDateDisplay: document.getElementById('modal-date-display'), languageToggleBtn: document.getElementById('language-toggle-btn'), themeSwitcher: document.getElementById('theme-switcher'), themeIcon: document.getElementById('theme-icon'), deleteModal: document.getElementById('delete-modal'), deleteModalContent: document.getElementById('delete-modal-content'), cancelDeleteBtn: document.getElementById('cancel-delete-btn'), confirmDeleteBtn: document.getElementById('confirm-delete-btn'), gotoTodayBtn: document.getElementById('goto-today'), modalEditBtn: document.getElementById('modal-edit-btn'), modalSaveBtn: document.getElementById('modal-save-btn'), upcomingBookingsContainer: document.getElementById('upcoming-bookings-container'), itemChecklist: document.getElementById('item-checklist'), grandTotalEl: document.getElementById('grand-total'), addInstallmentBtn: document.getElementById('add-installment-btn'), installmentsContainer: document.getElementById('installments-container'), totalPaidEl: document.getElementById('total-paid'), remainingAmountEl: document.getElementById('remaining-amount'), modalCloseBtnTop: document.getElementById('modal-close-btn-top'),
     };
     
     // --- DOM ELEMENTS (continued)
@@ -342,6 +360,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- FUNCTIONS ---
     const updateLangButtonText = () => allDOMElements.languageToggleBtn.textContent = currentLang === 'en' ? 'ગુજરાતી' : 'ENGLISH';
     
+    const updatePaymentSummary = () => {
+        const grandTotal = parseFloat(allDOMElements.grandTotalEl.textContent.replace('₹', '')) || 0;
+        const advancedPayment = parseFloat(document.getElementById('advanced-payment-amount').value) || 0;
+
+        let installmentsTotal = 0;
+        document.querySelectorAll('.installment-row .installment-amount').forEach(input => {
+            installmentsTotal += parseFloat(input.value) || 0;
+        });
+
+        const totalPaid = advancedPayment + installmentsTotal;
+        const remainingAmount = grandTotal - totalPaid;
+
+        allDOMElements.totalPaidEl.textContent = `₹${totalPaid.toFixed(2)}`;
+        allDOMElements.remainingAmountEl.textContent = `₹${remainingAmount.toFixed(2)}`;
+        
+        return { grandTotal, totalPaid, remainingAmount };
+    };
+
     const calculateTotals = () => {
         let grandTotal = 0;
         const itemRows = allDOMElements.itemChecklist.querySelectorAll('.item-row');
@@ -353,6 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (quantity > 0) grandTotal += total;
         });
         allDOMElements.grandTotalEl.textContent = `₹${grandTotal}`;
+        updatePaymentSummary();
     };
 
     const renderUpcomingBookingsBanner = () => {
@@ -507,6 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (installments.length > 0) {
             installments.forEach(inst => installmentsContainer.innerHTML += installmentHTML(inst));
         }
+        updatePaymentSummary();
     };
     
     const setModalMode = (mode, bookingData = null) => {
@@ -552,8 +590,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isViewing) {
              itemChecklist.querySelectorAll('input').forEach(i => i.disabled = true);
              addInstallmentBtn.classList.add('hidden');
+             bookingForm.querySelectorAll('.installment-divider-btn').forEach(b => b.classList.add('hidden'));
         } else {
              addInstallmentBtn.classList.remove('hidden');
+             bookingForm.querySelectorAll('.installment-divider-btn').forEach(b => b.classList.remove('hidden'));
         }
 
         modalEditBtn.classList.toggle('hidden', !isViewing);
@@ -746,7 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- EVENT LISTENERS ---
     const setupEventListeners = () => {
-        const { prevMonthBtn, nextMonthBtn, calendarGridEl, modal, bookingForm, cancelModalBtn, languageToggleBtn, themeSwitcher, gotoTodayBtn, confirmDeleteBtn, cancelDeleteBtn, deleteModal, modalEditBtn, itemChecklist, addInstallmentBtn, installmentsContainer } = allDOMElements;
+        const { prevMonthBtn, nextMonthBtn, calendarGridEl, modal, bookingForm, cancelModalBtn, languageToggleBtn, themeSwitcher, gotoTodayBtn, confirmDeleteBtn, cancelDeleteBtn, deleteModal, modalEditBtn, itemChecklist, addInstallmentBtn, installmentsContainer, modalCloseBtnTop } = allDOMElements;
         prevMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
         nextMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
         gotoTodayBtn.addEventListener('click', () => {
@@ -759,6 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.addEventListener('click', e => e.target === modal && closeModal());
         bookingForm.addEventListener('submit', handleBookingSubmit);
         cancelModalBtn.addEventListener('click', closeModal);
+        modalCloseBtnTop.addEventListener('click', closeModal);
         languageToggleBtn.addEventListener('click', () => {
             currentLang = currentLang === 'en' ? 'gu' : 'en';
             updateLangButtonText();
@@ -784,6 +825,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (button.classList.contains('delete-btn')) openDeleteModal(selectedDate, slot);
             if (button.classList.contains('add-slot-btn')) openModal(null, slot, 'add');
         });
+        
         itemChecklist.addEventListener('input', e => {
             if (e.target.classList.contains('item-price') || e.target.classList.contains('item-quantity')) {
                 const row = e.target.closest('.item-row');
@@ -797,6 +839,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 calculateTotals();
             }
         });
+
+        document.getElementById('advanced-payment-amount').addEventListener('input', updatePaymentSummary);
+        installmentsContainer.addEventListener('input', e => {
+            if (e.target.classList.contains('installment-amount')) {
+                updatePaymentSummary();
+            }
+        });
+
         addInstallmentBtn.addEventListener('click', () => {
             const newRowHTML = `
                 <div class="flex items-center gap-2 installment-row">
@@ -813,7 +863,39 @@ document.addEventListener('DOMContentLoaded', () => {
         installmentsContainer.addEventListener('click', (e) => {
             if (e.target.closest('.remove-installment-btn')) {
                 e.target.closest('.installment-row').remove();
+                updatePaymentSummary();
             }
+        });
+        
+        bookingForm.addEventListener('click', e => {
+            const dividerBtn = e.target.closest('.installment-divider-btn');
+            if(!dividerBtn) return;
+            
+            const count = parseInt(dividerBtn.dataset.count);
+            const { remainingAmount } = updatePaymentSummary();
+            
+            if (remainingAmount <= 0) return;
+            
+            installmentsContainer.innerHTML = '';
+            
+            const baseAmount = Math.floor(remainingAmount / count);
+            const remainder = remainingAmount - baseAmount * count;
+            
+            for (let i = 0; i < count; i++) {
+                const amountForThisInstallment = baseAmount + (i < remainder ? 1 : 0);
+                if (amountForThisInstallment <= 0) continue;
+                const newRowHTML = `
+                    <div class="flex items-center gap-2 installment-row">
+                        <input type="number" value="${amountForThisInstallment.toFixed(2)}" data-lang-placeholder="installment_amount" class="installment-amount w-1/2 px-2 py-1 border rounded-md bg-background dark:bg-dark-background dark:border-dark-border">
+                        <input type="text" data-lang-placeholder="installment_date" class="installment-date date-picker w-1/2 px-2 py-1 border rounded-md bg-background dark:bg-dark-background dark:border-dark-border">
+                        <button type="button" class="remove-installment-btn w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-red-100 hover:bg-red-200 text-red-600"><i class="fa-solid fa-minus"></i></button>
+                    </div>`;
+                installmentsContainer.insertAdjacentHTML('beforeend', newRowHTML);
+            }
+            
+            initDatepickers('.installment-date');
+            updateLanguage();
+            updatePaymentSummary();
         });
     };
 
