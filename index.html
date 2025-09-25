@@ -103,16 +103,40 @@
                 <span data-lang-key="title">Farm Booking Manager</span>
             </h1>
             <div class="flex items-center space-x-2 md:space-x-4">
-                 <button id="account-btn" class="text-sm font-semibold bg-white dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg py-2 px-4 hover:bg-gray-50 dark:hover:bg-dark-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark-background transition-colors flex items-center gap-2">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <span data-lang-key="my_accounts">My Accounts</span>
-                </button>
-                <button id="language-toggle-btn" class="text-sm font-semibold bg-white dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg py-2 px-4 hover:bg-gray-50 dark:hover:bg-dark-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark-background transition-colors w-28">
-                    <!-- Text set by JS -->
-                </button>
-                <button id="theme-switcher" class="w-10 h-10 flex justify-center items-center rounded-full bg-white dark:bg-dark-card border border-light-border dark:border-dark-border hover:bg-gray-50 dark:hover:bg-dark-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark-background transition-colors">
-                    <i id="theme-icon" class="fa-solid fa-sun text-lg text-yellow-500"></i>
-                </button>
+                <!-- Desktop Buttons -->
+                <div class="hidden md:flex items-center space-x-2 md:space-x-4">
+                    <button id="account-btn" class="text-sm font-semibold bg-white dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg py-2 px-4 hover:bg-gray-50 dark:hover:bg-dark-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark-background transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <span data-lang-key="my_accounts">My Accounts</span>
+                    </button>
+                    <button id="language-toggle-btn" class="text-sm font-semibold bg-white dark:bg-dark-card border border-light-border dark:border-dark-border rounded-lg py-2 px-4 hover:bg-gray-50 dark:hover:bg-dark-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark-background transition-colors w-28">
+                        <!-- Text set by JS -->
+                    </button>
+                    <button id="theme-switcher" class="w-10 h-10 flex justify-center items-center rounded-full bg-white dark:bg-dark-card border border-light-border dark:border-dark-border hover:bg-gray-50 dark:hover:bg-dark-background focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-dark-background transition-colors">
+                        <i id="theme-icon" class="fa-solid fa-sun text-lg text-yellow-500"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu -->
+                <div class="md:hidden relative">
+                    <button id="mobile-menu-btn" class="w-10 h-10 flex justify-center items-center rounded-full bg-white dark:bg-dark-card border border-light-border dark:border-dark-border">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                    <div id="mobile-menu" class="hidden absolute top-full right-0 mt-2 w-48 bg-white dark:bg-dark-card rounded-lg shadow-xl border dark:border-dark-border z-20 py-1">
+                         <button id="mobile-account-btn" class="w-full text-left px-4 py-2.5 text-sm hover:bg-gray-100 dark:hover:bg-dark-border flex items-center gap-3">
+                            <i class="fa-solid fa-user-tie w-4 text-center"></i>
+                            <span data-lang-key="my_accounts">My Accounts</span>
+                        </button>
+                         <button id="mobile-language-btn" class="w-full text-left px-4 py-2.5 text-sm hover:bg-gray-100 dark:hover:bg-dark-border flex items-center gap-3">
+                            <i class="fa-solid fa-language w-4 text-center"></i>
+                            <span id="mobile-language-text"></span>
+                        </button>
+                         <button id="mobile-theme-btn" class="w-full text-left px-4 py-2.5 text-sm hover:bg-gray-100 dark:hover:bg-dark-border flex items-center gap-3">
+                            <i id="mobile-theme-icon" class="fa-solid fa-sun w-4 text-center"></i>
+                            <span data-lang-key="theme">Theme</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -172,14 +196,14 @@
             </div>
 
             <!-- SCROLLABLE FORM BODY -->
-            <div class="flex-grow p-6 overflow-y-auto">
+            <div class="flex-grow p-4 sm:p-6 overflow-y-auto">
                 <form id="booking-form" class="grid grid-cols-1 lg:grid-cols-5 gap-x-8 gap-y-6 h-full">
                     <input type="hidden" id="booking-date">
                     <input type="hidden" id="editing-slot">
                     
                     <!-- LEFT COLUMN -->
-                    <div class="flex flex-col gap-6 lg:col-span-3 h-full">
-                        <div class="space-y-4 flex-shrink-0">
+                    <div class="flex flex-col gap-4 sm:gap-6 lg:col-span-3 h-full">
+                        <div class="space-y-3 sm:space-y-4 flex-shrink-0">
                              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                  <div>
                                      <label for="customer-name" class="block text-sm font-medium mb-1" data-lang-key="customer_name">Customer Name</label>
@@ -400,8 +424,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- TRANSLATIONS ---
     const translations = {
-        en: { title: "Farm Booking Manager", upcoming_bookings: "Upcoming Bookings", no_upcoming_bookings: "No upcoming bookings found.", booking_details: "Booking Details", grand_total: "Grand Total:", select_date_prompt: "Select a date to see details.", add_booking: "Add Booking", add_new_booking: "Add New Booking", edit_booking: "Edit Booking", customer_name: "Customer Name", contact_info: "Contact Info", details_notes: "Details / Notes", booking_slot: "Booking Slot", morning: "Morning", afternoon: "Afternoon", night: "Night", cancel: "Cancel", save_booking: "Save Booking", booked_by: "Booked by", contact: "Contact", amount: "Amount", no_bookings: "This slot is available.", months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], edit: "Edit", delete: "Delete", confirm_delete_title: "Confirm Deletion", confirm_delete_text: "Are you sure? This action cannot be undone.", vacant: "Vacant", goto_today: "Go to Today", view_details: "View Details", view_booking: "View Booking", close: "Close", item_detail: "Detail", item_price: "Price", item_qty: "Qty", item_total: "Total", advanced_payment: "Advanced Payment", installments: "Installments", select_date: "Select Date", installment_amount: "Amount", installment_date: "Date", total_paid: "Total Paid:", remaining_amount: "Remaining:", auto_divide: "Divide in:", my_accounts: "My Accounts", farm_name: "Farm Name", contact_person: "Contact Person Name", contact_information: "Contact Information's", farm_address: "Farm Address", gst_number: "GST Number", farm_logo: "Farm Logo", save_details: "Save Details", change_logo: "Change" },
-        gu: { title: "ફાર્મ બુકિંગ મેનેજર", upcoming_bookings: "આગામી બુકિંગ", no_upcoming_bookings: "કોઈ આગામી બુકિંગ મળ્યું નથી.", booking_details: "બુકિંગ વિગતો", grand_total: "કુલ ટોટલ:", select_date_prompt: "વિગતો જોવા માટે તારીખ પસંદ કરો.", add_booking: "બુકિંગ ઉમેરો", add_new_booking: "નવું બુકિંગ ઉમેરો", edit_booking: "બુકિંગ સંપાદિત કરો", customer_name: "ગ્રાહકનું નામ", contact_info: "સંપર્ક માહિતી", details_notes: "વિગતો / નોંધો", booking_slot: "બુકિંગ સ્લોટ", morning: "સવાર", afternoon: "બપોર", night: "રાત્રી", cancel: "રદ કરો", save_booking: "બુકિંગ સાચવો", booked_by: "દ્વારા બુક કરેલ", contact: "સંપર્ક", amount: "રકમ", no_bookings: "આ સ્લોટ ઉપલબ્ધ છે.", months: ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઓગસ્ટ", "સપ્ટેમ્બર", "ઓક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"], days: ["રવિ", "સોમ", "મંગળ", "બુધ", "ગુરુ", "શુક્ર", "શનિ"], edit: "સંપાદિત કરો", delete: "કાઢી નાખો", confirm_delete_title: "કાઢી નાખવાની પુષ્ટિ કરો", confirm_delete_text: "શું તમે ચોક્કસ છો? આ ક્રિયાને પૂર્વવત્ કરી શકાતી નથી.", vacant: "ખાલી", goto_today: "આજે જાઓ", view_details: "વિગતો જુઓ", view_booking: "બુકિંગ જુઓ", close: "બંધ કરો", item_detail: "વિગત", item_price: "ભાવ", item_qty: "નંગ", item_total: "ટોટલ", advanced_payment: "એડવાન્સ પેમેન્ટ", installments: "હપતા", select_date: "તારીખ પસંદ કરો", installment_amount: "રકમ", installment_date: "તારીખ", total_paid: "કુલ ચૂકવેલ:", remaining_amount: "બાકી:", auto_divide: "માં વિભાજીત કરો:", my_accounts: "મારું એકાઉન્ટ", farm_name: "ફાર્મનું નામ", contact_person: "સંપર્ક વ્યક્તિનું નામ", contact_information: "સંપર્ક માહિતી", farm_address: "ફાર્મનું સરનામું", gst_number: "GST નંબર", farm_logo: "ફાર્મનો લોગો", save_details: "વિગતો સાચવો", change_logo: "બદલો" },
+        en: { title: "Farm Booking Manager", upcoming_bookings: "Upcoming Bookings", no_upcoming_bookings: "No upcoming bookings found.", booking_details: "Booking Details", grand_total: "Grand Total:", select_date_prompt: "Select a date to see details.", add_booking: "Add Booking", add_new_booking: "Add New Booking", edit_booking: "Edit Booking", customer_name: "Customer Name", contact_info: "Contact Info", details_notes: "Details / Notes", booking_slot: "Booking Slot", morning: "Morning", afternoon: "Afternoon", night: "Night", cancel: "Cancel", save_booking: "Save Booking", booked_by: "Booked by", contact: "Contact", amount: "Amount", no_bookings: "This slot is available.", months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], edit: "Edit", delete: "Delete", confirm_delete_title: "Confirm Deletion", confirm_delete_text: "Are you sure? This action cannot be undone.", vacant: "Vacant", goto_today: "Go to Today", view_details: "View Details", view_booking: "View Booking", close: "Close", item_detail: "Detail", item_price: "Price", item_qty: "Qty", item_total: "Total", advanced_payment: "Advanced Payment", installments: "Installments", select_date: "Select Date", installment_amount: "Amount", installment_date: "Date", total_paid: "Total Paid:", remaining_amount: "Remaining:", auto_divide: "Divide in:", my_accounts: "My Accounts", farm_name: "Farm Name", contact_person: "Contact Person Name", contact_information: "Contact Information's", farm_address: "Farm Address", gst_number: "GST Number", farm_logo: "Farm Logo", save_details: "Save Details", change_logo: "Change", theme: "Theme" },
+        gu: { title: "ફાર્મ બુકિંગ મેનેજર", upcoming_bookings: "આગામી બુકિંગ", no_upcoming_bookings: "કોઈ આગામી બુકિંગ મળ્યું નથી.", booking_details: "બુકિંગ વિગતો", grand_total: "કુલ ટોટલ:", select_date_prompt: "વિગતો જોવા માટે તારીખ પસંદ કરો.", add_booking: "બુકિંગ ઉમેરો", add_new_booking: "નવું બુકિંગ ઉમેરો", edit_booking: "બુકિંગ સંપાદિત કરો", customer_name: "ગ્રાહકનું નામ", contact_info: "સંપર્ક માહિતી", details_notes: "વિગતો / નોંધો", booking_slot: "બુકિંગ સ્લોટ", morning: "સવાર", afternoon: "બપોર", night: "રાત્રી", cancel: "રદ કરો", save_booking: "બુકિંગ સાચવો", booked_by: "દ્વારા બુક કરેલ", contact: "સંપર્ક", amount: "રકમ", no_bookings: "આ સ્લોટ ઉપલબ્ધ છે.", months: ["જાન્યુઆરી", "ફેબ્રુઆરી", "માર્ચ", "એપ્રિલ", "મે", "જૂન", "જુલાઈ", "ઓગસ્ટ", "સપ્ટેમ્બર", "ઓક્ટોબર", "નવેમ્બર", "ડિસેમ્બર"], days: ["રવિ", "સોમ", "મંગળ", "બુધ", "ગુરુ", "શુક્ર", "શનિ"], edit: "સંપાદિત કરો", delete: "કાઢી નાખો", confirm_delete_title: "કાઢી નાખવાની પુષ્ટિ કરો", confirm_delete_text: "શું તમે ચોક્કસ છો? આ ક્રિયાને પૂર્વવત્ કરી શકાતી નથી.", vacant: "ખાલી", goto_today: "આજે જાઓ", view_details: "વિગતો જુઓ", view_booking: "બુકિંગ જુઓ", close: "બંધ કરો", item_detail: "વિગત", item_price: "ભાવ", item_qty: "નંગ", item_total: "ટોટલ", advanced_payment: "એડવાન્સ પેમેન્ટ", installments: "હપતા", select_date: "તારીખ પસંદ કરો", installment_amount: "રકમ", installment_date: "તારીખ", total_paid: "કુલ ચૂકવેલ:", remaining_amount: "બાકી:", auto_divide: "માં વિભાજીત કરો:", my_accounts: "મારું એકાઉન્ટ", farm_name: "ફાર્મનું નામ", contact_person: "સંપર્ક વ્યક્તિનું નામ", contact_information: "સંપર્ક માહિતી", farm_address: "ફાર્મનું સરનામું", gst_number: "GST નંબર", farm_logo: "ફાર્મનો લોગો", save_details: "વિગતો સાચવો", change_logo: "બદલો", theme: "થીમ" },
     };
     const bookingSlots = [ { id: 'morning', icon: 'fa-sun', color: 'text-yellow-500' }, { id: 'afternoon', icon: 'fa-cloud-sun', color: 'text-orange-500' }, { id: 'night', icon: 'fa-moon', color: 'text-accent' }];
 
@@ -409,13 +433,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const allDOMElements = {
         monthYearEl: document.getElementById('month-year'), calendarGridEl: document.getElementById('calendar-grid'), calendarHeaderEl: document.getElementById('calendar-header'), prevMonthBtn: document.getElementById('prev-month'), nextMonthBtn: document.getElementById('next-month'), bookingInfoEl: document.getElementById('booking-info'), selectedDateDisplayEl: document.getElementById('selected-date-display'), modal: document.getElementById('booking-modal'), modalContent: document.getElementById('modal-content'), modalTitle: document.getElementById('modal-title'), cancelModalBtn: document.getElementById('cancel-modal-btn'), bookingForm: document.getElementById('booking-form'), modalDateDisplay: document.getElementById('modal-date-display'), languageToggleBtn: document.getElementById('language-toggle-btn'), themeSwitcher: document.getElementById('theme-switcher'), themeIcon: document.getElementById('theme-icon'), deleteModal: document.getElementById('delete-modal'), deleteModalContent: document.getElementById('delete-modal-content'), cancelDeleteBtn: document.getElementById('cancel-delete-btn'), confirmDeleteBtn: document.getElementById('confirm-delete-btn'), gotoTodayBtn: document.getElementById('goto-today'), modalEditBtn: document.getElementById('modal-edit-btn'), modalSaveBtn: document.getElementById('modal-save-btn'), upcomingBookingsContainer: document.getElementById('upcoming-bookings-container'), itemChecklist: document.getElementById('item-checklist'), grandTotalEl: document.getElementById('grand-total'), addInstallmentBtn: document.getElementById('add-installment-btn'), installmentsContainer: document.getElementById('installments-container'), totalPaidEl: document.getElementById('total-paid'), remainingAmountEl: document.getElementById('remaining-amount'), modalCloseBtnTop: document.getElementById('modal-close-btn-top'),
         accountBtn: document.getElementById('account-btn'), accountModal: document.getElementById('account-modal'), accountModalContent: document.getElementById('account-modal-content'), closeAccountModalBtn: document.getElementById('close-account-modal-btn'), cancelAccountBtn: document.getElementById('cancel-account-btn'), accountForm: document.getElementById('account-form'), farmLogoInput: document.getElementById('farm-logo-input'),
+        mobileMenuBtn: document.getElementById('mobile-menu-btn'), mobileMenu: document.getElementById('mobile-menu'), mobileAccountBtn: document.getElementById('mobile-account-btn'), mobileLanguageBtn: document.getElementById('mobile-language-btn'), mobileLanguageText: document.getElementById('mobile-language-text'), mobileThemeBtn: document.getElementById('mobile-theme-btn'), mobileThemeIcon: document.getElementById('mobile-theme-icon'),
     };
     
     // --- DOM ELEMENTS (continued)
     const { bookingInfoEl, selectedDateDisplayEl } = allDOMElements;
 
     // --- FUNCTIONS ---
-    const updateLangButtonText = () => allDOMElements.languageToggleBtn.textContent = currentLang === 'en' ? 'ગુજરાતી' : 'ENGLISH';
+    const updateLangButtonText = () => {
+        const langText = currentLang === 'en' ? 'ગુજરાતી' : 'ENGLISH';
+        allDOMElements.languageToggleBtn.textContent = langText;
+        allDOMElements.mobileLanguageText.textContent = langText;
+    };
     
     const updatePaymentSummary = () => {
         const grandTotal = parseFloat(allDOMElements.grandTotalEl.textContent.replace('₹', '')) || 0;
@@ -811,7 +840,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const toggleTheme = () => {
         const isDark = document.documentElement.classList.toggle('dark');
-        allDOMElements.themeIcon.className = isDark ? 'fa-solid fa-moon text-lg text-accent' : 'fa-solid fa-sun text-lg text-yellow-500';
+        const themeIconClass = isDark ? 'fa-solid fa-moon text-lg text-accent' : 'fa-solid fa-sun text-lg text-yellow-500';
+        const mobileThemeIconClass = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+        allDOMElements.themeIcon.className = themeIconClass;
+        allDOMElements.mobileThemeIcon.className = `${mobileThemeIconClass} w-4 text-center`;
         saveState();
     };
 
@@ -878,7 +910,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- EVENT LISTENERS ---
     const setupEventListeners = () => {
-        const { prevMonthBtn, nextMonthBtn, calendarGridEl, modal, bookingForm, cancelModalBtn, languageToggleBtn, themeSwitcher, gotoTodayBtn, confirmDeleteBtn, cancelDeleteBtn, deleteModal, modalEditBtn, itemChecklist, addInstallmentBtn, installmentsContainer, modalCloseBtnTop, accountBtn, accountModal, closeAccountModalBtn, cancelAccountBtn, accountForm, farmLogoInput } = allDOMElements;
+        const { prevMonthBtn, nextMonthBtn, calendarGridEl, modal, bookingForm, cancelModalBtn, languageToggleBtn, themeSwitcher, gotoTodayBtn, confirmDeleteBtn, cancelDeleteBtn, deleteModal, modalEditBtn, itemChecklist, addInstallmentBtn, installmentsContainer, modalCloseBtnTop, accountBtn, accountModal, closeAccountModalBtn, cancelAccountBtn, accountForm, farmLogoInput, mobileMenuBtn, mobileMenu, mobileAccountBtn, mobileLanguageBtn, mobileThemeBtn } = allDOMElements;
         prevMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
         nextMonthBtn.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
         gotoTodayBtn.addEventListener('click', () => {
@@ -921,6 +953,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('logo-preview').src = event.target.result;
             };
             reader.readAsDataURL(file);
+        });
+
+        // Mobile Menu Listeners
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileAccountBtn.addEventListener('click', () => {
+            openAccountModal();
+            mobileMenu.classList.add('hidden');
+        });
+
+        mobileLanguageBtn.addEventListener('click', () => {
+            languageToggleBtn.click();
+            mobileMenu.classList.add('hidden');
+        });
+
+        mobileThemeBtn.addEventListener('click', () => {
+            themeSwitcher.click();
+            mobileMenu.classList.add('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.classList.contains('hidden') && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
         });
 
         bookingInfoEl.addEventListener('click', e => {
@@ -1013,6 +1072,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLanguage();
     updateLangButtonText();
     allDOMElements.themeIcon.className = document.documentElement.classList.contains('dark') ? 'fa-solid fa-moon text-lg text-accent' : 'fa-solid fa-sun text-lg text-yellow-500';
+    allDOMElements.mobileThemeIcon.className = `${document.documentElement.classList.contains('dark') ? 'fa-solid fa-moon' : 'fa-solid fa-sun'} w-4 text-center`;
     setupEventListeners();
     setupAnimations();
 });
@@ -1020,4 +1080,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
